@@ -1,42 +1,37 @@
-<div class="all-accounts-container">
-  <h2>All Accounts</h2>
-
-  <!-- Stato di Caricamento -->
-  <div *ngIf="loading()" class="loading">
-    <p>Loading accounts...</p>
+<div class="container py-5">
+  <div class="mb-4">
+    <h2 class="fw-bold">All Accounts</h2>
+    <p class="text-muted">Browse users by name, surname and currency.</p>
   </div>
 
-  <!-- Stato di Errore -->
-  <div *ngIf="error()" class="error">
-    <p>{{ error() }}</p>
+  <div *ngIf="loading()" class="alert alert-info">
+    Loading accounts...
   </div>
 
-  <!-- Tabella visualizzata solo se il caricamento è finito, non ci sono errori e ci sono record -->
-  <div *ngIf="!loading() && !error() && accounts().length > 0" class="accounts-list">
-    <table>
-      <thead>
+  <div *ngIf="error()" class="alert alert-danger">
+    {{ error() }}
+  </div>
+
+  <div *ngIf="!loading() && !error() && accounts().length > 0" class="table-responsive shadow-sm rounded-4 bg-white">
+    <table class="table table-striped table-hover mb-0 align-middle">
+      <thead class="table-light">
         <tr>
-          <th>Account ID</th>
-          <th>Account Name</th>
-          <th>Balance</th>
-          <th>Type</th>
+          <th>Name</th>
+          <th>Surname</th>
+          <th>Currency</th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let item of accounts()" 
-            [routerLink]="['/accounts', item.id]" 
-            class="account-row">
-          <td>{{ item.id }}</td>
+        <tr *ngFor="let item of accounts()" [routerLink]="['/accounts', item.id]" class="table-row">
           <td>{{ item.name }}</td>
-          <td>{{ item.balance | currency:'EUR':'symbol':'1.2-2' }}</td>
-          <td><span class="badge">{{ item.type }}</span></td>
+          <td>{{ item.surname }}</td>
+          <td>{{ item.currency }}</td>
         </tr>
       </tbody>
     </table>
   </div>
 
-  <!-- Messaggio se la lista è vuota -->
-  <div *ngIf="!loading() && !error() && accounts().length === 0" class="no-accounts">
-    <p>No accounts found.</p>
+  <div *ngIf="!loading() && !error() && accounts().length === 0" class="alert alert-secondary">
+    No accounts found.
   </div>
 </div>

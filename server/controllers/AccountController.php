@@ -19,14 +19,14 @@ class AccountController
         if (! $stmt) {
             $response->getBody()->write(json_encode(['error' => 'Database error']));
             $mysqli->close();
-            return $response->withHeader('Content-Type', 'application/json')->withStatus(500);
+            return $response->withHeader('Content-Type', 'application/json')->withHeader('Access-Control-Allow-Origin', '*')->withStatus(500);
         }
 
         $stmt->execute();
         $result  = $stmt->get_result();
         $results = $result->fetch_all();
         $response->getBody()->write(json_encode($results));
-        return $response->withHeader("Content-type", "application/json")->withStatus(200);
+        return $response->withHeader("Content-type", "application/json")->withHeader('Access-Control-Allow-Origin', '*')->withStatus(200);
     }
 
     //GET /accounts/{account} -- shows specific account
@@ -40,7 +40,7 @@ class AccountController
         if (! $stmt) {
             $response->getBody()->write(json_encode(['error' => 'Database error']));
             $mysqli->close();
-            return $response->withHeader('Content-Type', 'application/json')->withStatus(500);
+            return $response->withHeader('Content-Type', 'application/json')->withHeader('Access-Control-Allow-Origin', '*')->withStatus(500);
         }
 
         $stmt->bind_param("i", $accountId);
@@ -49,9 +49,9 @@ class AccountController
         $results = $result->fetch_all();
         if (count($results) === 0) {
             $response->getBody()->write(json_encode(['error' => 'Account not found']));
-            return $response->withHeader('Content-Type', 'application/json')->withStatus(404);
+            return $response->withHeader('Content-Type', 'application/json')->withHeader('Access-Control-Allow-Origin', '*')->withStatus(404);
         }
         $response->getBody()->write(json_encode($results[0]));
-        return $response->withHeader("Content-type", "application/json")->withStatus(200);
+        return $response->withHeader("Content-type", "application/json")->withHeader('Access-Control-Allow-Origin', '*')->withStatus(200);
     }
 }

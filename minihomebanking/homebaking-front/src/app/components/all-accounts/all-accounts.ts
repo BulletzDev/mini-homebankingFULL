@@ -6,8 +6,9 @@ import { AccountService } from '../../services/AccountServices.service';
 export interface Account {
   id: string;
   name: string;
-  balance: number;
-  type: string;
+  surname: string;
+  currency: string;
+  created_at?: string;
 }
 
 @Component({
@@ -36,7 +37,14 @@ export class AllAccountsComponent implements OnInit {
     this.accountService.getAccounts().subscribe({
       next: (data) => {
         console.log('Accounts loaded successfully:', data);
-        this.accounts.set(data);
+        const mapped = data.map((row: any[]) => ({
+          id: String(row[0]),
+          name: row[1],
+          surname: row[2],
+          currency: row[3],
+          created_at: row[4]
+        }));
+        this.accounts.set(mapped);
         this.loading.set(false);
       },
       error: (err) => {
