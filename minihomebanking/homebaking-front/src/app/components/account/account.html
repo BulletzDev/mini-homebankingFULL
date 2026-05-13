@@ -1,0 +1,31 @@
+<div class="account-detail-container">
+  <a routerLink="/accounts" class="back-btn">← Torna alla lista</a>
+
+  <div *ngIf="loading()">Caricamento dettagli conto...</div>
+
+  <div *ngIf="!loading() && accountDetails()">
+    <h2>Dettagli: {{ accountDetails().name }}</h2>
+    <p><strong>Tipo:</strong> {{ accountDetails().type }}</p>
+    <p><strong>Saldo Corrente:</strong> {{ accountDetails().balance | currency }}</p>
+
+    <h3>Registro Transazioni</h3>
+    <table class="transactions-table">
+      <thead>
+        <tr>
+          <th>Data</th>
+          <th>Descrizione</th>
+          <th>Importo</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let tx of transactions()" [ngClass]="tx.type">
+          <td>{{ tx.date | date:'dd/MM/yyyy' }}</td>
+          <td>{{ tx.desc }}</td>
+          <td class="amount-cell">
+            <span *ngIf="tx.type === 'entrata'">+</span>{{ tx.amount | currency }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

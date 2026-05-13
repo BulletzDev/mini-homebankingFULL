@@ -1,0 +1,20 @@
+.entrata {
+  color: #2e7d32;
+  background-color: #e8f5e9;
+}
+
+.uscita {
+  color: #c62828;
+  background-color: #ffebee;
+}
+
+.amount-cell {
+  font-weight: bold;
+}
+
+.back-btn {
+  display: inline-block;
+  margin-bottom: 20px;
+  text-decoration: none;
+  color: #0066cc;
+}

@@ -6,23 +6,13 @@ require __DIR__ . '/controllers/TransactionController.php';
 require __DIR__ . '/controllers/ConversionController.php';
 require __DIR__ . '/controllers/AccountController.php';
 
-
-
 $app = AppFactory::create();
-
-$app->add(function ($request, $handler) {
-    $response = $handler->handle($request);
-    return $response
-        ->withHeader('Access-Control-Allow-Origin', 'http://localhost:4200')
-        ->withHeader('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, Accept, Origin, Authorization')
-        ->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS')
-        ->withHeader('Access-Control-Allow-Credentials', 'true');
-});
 
 $app->addBodyParsingMiddleware();
 
 //Transactions API's
 $app ->get('/accounts', 'AccountController:allAccounts');
+$app ->get('/accounts/{account}', 'AccountController:account');
 $app ->get('/accounts/{account}/transactions', 'TransactionController:allTransactions');
 $app ->get('/accounts/{account}/transactions/{transactionId}', 'TransactionController:transaction');
 $app ->post('/accounts/{account}/deposit', 'TransactionController:deposit');

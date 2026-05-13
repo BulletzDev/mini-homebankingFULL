@@ -1,10 +1,12 @@
 {
-    "require": {
-        "slim/slim": "4.*",
-        "slim/psr7": "^1.6",
-        "mustache/mustache": "^2.14"
+    "name": "my-project/bank-api",
+    "autoload": {
+        "psr-4": {
+            "MyProject\\BankApi\\": "src/"
+        }
     },
-    "require-dev": {
-        "phpunit/phpunit": "^11.0"
+    "require": {
+        "slim/slim": "^4.15",
+        "slim/psr7": "^1.8"
     }
 }

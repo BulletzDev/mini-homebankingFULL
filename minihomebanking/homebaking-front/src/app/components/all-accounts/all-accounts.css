@@ -1,0 +1,51 @@
+/* Stili generali tabelle e interazioni */
+.account-row {
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.account-row:hover {
+  background-color: #f1f5f9;
+}
+
+.badge {
+  background: #e2e8f0;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.85em;
+}
+
+/* Stili specifici per transazioni entrata/uscita */
+.transactions-table tr.entrata {
+  background-color: #f0fdf4;
+  color: #166534;
+}
+
+.transactions-table tr.uscita {
+  background-color: #fef2f2;
+  color: #991b1b;
+}
+
+.amount-column {
+  font-weight: bold;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.back-btn {
+  display: inline-block;
+  margin-bottom: 20px;
+  color: #2563eb;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.back-btn:hover {
+  text-decoration: underline;
+}
+
+.negative {
+  color: #991b1b;
+}

@@ -1,14 +1,17 @@
 <div class="all-accounts-container">
   <h2>All Accounts</h2>
-  
+
+  <!-- Stato di Caricamento -->
   <div *ngIf="loading()" class="loading">
     <p>Loading accounts...</p>
   </div>
 
+  <!-- Stato di Errore -->
   <div *ngIf="error()" class="error">
     <p>{{ error() }}</p>
   </div>
 
+  <!-- Tabella visualizzata solo se il caricamento è finito, non ci sono errori e ci sono record -->
   <div *ngIf="!loading() && !error() && accounts().length > 0" class="accounts-list">
     <table>
       <thead>
@@ -20,16 +23,19 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let account of accounts()">
-          <td>{{ account.id }}</td>
-          <td>{{ account.name }}</td>
-          <td>{{ account.balance }}</td>
-          <td>{{ account.type }}</td>
+        <tr *ngFor="let item of accounts()" 
+            [routerLink]="['/accounts', item.id]" 
+            class="account-row">
+          <td>{{ item.id }}</td>
+          <td>{{ item.name }}</td>
+          <td>{{ item.balance | currency:'EUR':'symbol':'1.2-2' }}</td>
+          <td><span class="badge">{{ item.type }}</span></td>
         </tr>
       </tbody>
     </table>
   </div>
 
+  <!-- Messaggio se la lista è vuota -->
   <div *ngIf="!loading() && !error() && accounts().length === 0" class="no-accounts">
     <p>No accounts found.</p>
   </div>
