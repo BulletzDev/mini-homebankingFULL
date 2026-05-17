@@ -1,0 +1,87 @@
+:host {
+  display: block;
+}
+
+.balance-view {
+  display: grid;
+  gap: 1rem;
+}
+
+.balance-hero {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.balance-hero h2 {
+  margin: 0;
+  color: #172033;
+  font-size: clamp(2rem, 6vw, 3.5rem);
+  line-height: 1;
+}
+
+.balance-summary {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.summary-card {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.summary-card span,
+.balance-table-header .eyebrow {
+  color: #64748b;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.summary-card strong {
+  color: #172033;
+  font-size: 1.35rem;
+}
+
+.summary-card p {
+  margin: 0;
+  color: #64748b;
+}
+
+.credit-card strong,
+.credit-row .amount-cell {
+  color: #15803d;
+}
+
+.debit-card strong,
+.debit-row .amount-cell {
+  color: #be123c;
+}
+
+.balance-table-header {
+  padding: 1.25rem 1.25rem 0.5rem;
+}
+
+.balance-table-header h3 {
+  margin: 0;
+  color: #172033;
+  font-size: 1.15rem;
+}
+
+.amount-cell {
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+@media (max-width: 767px) {
+  .balance-hero,
+  .balance-summary {
+    grid-template-columns: 1fr;
+  }
+
+  .balance-hero {
+    flex-direction: column;
+  }
+}

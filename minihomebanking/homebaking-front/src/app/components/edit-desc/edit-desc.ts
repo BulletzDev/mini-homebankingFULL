@@ -1,18 +1,19 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { AccountService } from '../../services/AccountServices.service';
 
 @Component({
   selector: 'app-edit-desc',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterLink],
   templateUrl: './edit-desc.html',
   styleUrl: './edit-desc.css',
 })
 export class EditDesc implements OnInit {
   private route = inject(ActivatedRoute);
+  private router = inject(Router);
   private accountService = inject(AccountService);
   accountId: string | null = null;
   transactionId: string | null = null;
@@ -27,20 +28,21 @@ export class EditDesc implements OnInit {
   }
 
   updateDescription(): void {
-    if (!this.accountId || !this.transactionId) return;
-    
+    if (!this.accountId || !this.transactionId || this.loading) return;
+
     this.loading = true;
     this.error = null;
     this.success = null;
-    
-    this.accountService.updateTransaction(parseInt(this.accountId), parseInt(this.transactionId), this.description).subscribe({
+
+    this.accountService.updateTransaction(parseInt(this.accountId, 10), parseInt(this.transactionId, 10), this.description.trim()).subscribe({
       next: () => {
         this.success = 'Description updated successfully!';
         this.description = '';
         this.loading = false;
+        this.router.navigate(['/accounts', this.accountId, 'transactions']);
       },
-      error: (err) => {
-        this.error = 'Failed to update description';
+      error: () => {
+        this.error = 'Failed to update description.';
         this.loading = false;
       }
     });

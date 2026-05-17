@@ -1,31 +1,43 @@
-<div class="account-detail-container">
-  <a routerLink="/accounts" class="back-btn">← Torna alla lista</a>
+<div class="page-shell">
+  <a routerLink="/accounts" class="back-btn">&larr; Back to accounts</a>
 
-  <div *ngIf="loading()">Caricamento dettagli conto...</div>
+  <div *ngIf="loading()" class="alert alert-info">Loading account details...</div>
+  <div *ngIf="error()" class="alert alert-danger">{{ error() }}</div>
 
-  <div *ngIf="!loading() && accountDetails()">
-    <h2>Dettagli: {{ accountDetails().name }}</h2>
-    <p><strong>Tipo:</strong> {{ accountDetails().type }}</p>
-    <p><strong>Saldo Corrente:</strong> {{ accountDetails().balance | currency }}</p>
+  <section *ngIf="!loading() && !error() && accountDetails()" class="app-panel">
+    <header class="panel-header">
+      <div>
+        <p class="eyebrow">Account {{ accountDetails()?.id }}</p>
+        <h2>{{ accountDetails()?.name }} {{ accountDetails()?.surname }}</h2>
+        <p class="muted-copy">Created {{ accountDetails()?.created_at || 'date unavailable' }}</p>
+      </div>
+      <span class="status-pill">{{ accountDetails()?.currency }}</span>
+    </header>
 
-    <h3>Registro Transazioni</h3>
-    <table class="transactions-table">
-      <thead>
-        <tr>
-          <th>Data</th>
-          <th>Descrizione</th>
-          <th>Importo</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let tx of transactions()" [ngClass]="tx.type">
-          <td>{{ tx.date | date:'dd/MM/yyyy' }}</td>
-          <td>{{ tx.desc }}</td>
-          <td class="amount-cell">
-            <span *ngIf="tx.type === 'entrata'">+</span>{{ tx.amount | currency }}
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+    <div class="info-grid">
+      <div class="info-item">
+        <span>ID</span>
+        <strong>{{ accountDetails()?.id }}</strong>
+      </div>
+      <div class="info-item">
+        <span>Name</span>
+        <strong>{{ accountDetails()?.name }} {{ accountDetails()?.surname }}</strong>
+      </div>
+      <div class="info-item">
+        <span>Currency</span>
+        <strong>{{ accountDetails()?.currency }}</strong>
+      </div>
+      <div class="info-item">
+        <span>Created at</span>
+        <strong>{{ accountDetails()?.created_at || 'Not available' }}</strong>
+      </div>
+    </div>
+
+    <div class="account-actions">
+      <a [routerLink]="['/accounts', accountDetails()?.id, 'transactions']" class="btn btn-primary">Transactions</a>
+      <a [routerLink]="['/accounts', accountDetails()?.id, 'deposit']" class="btn btn-success">Deposit</a>
+      <a [routerLink]="['/accounts', accountDetails()?.id, 'withdraw']" class="btn btn-outline-danger">Withdraw</a>
+      <a [routerLink]="['/accounts', accountDetails()?.id, 'balance']" class="btn btn-outline-primary">Balance</a>
+    </div>
+  </section>
 </div>

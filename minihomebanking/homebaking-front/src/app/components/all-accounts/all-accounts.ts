@@ -8,7 +8,6 @@ export interface Account {
   name: string;
   surname: string;
   currency: string;
-  created_at?: string;
 }
 
 @Component({
@@ -23,7 +22,7 @@ export class AllAccountsComponent implements OnInit {
   loading = signal<boolean>(true);
   error = signal<string | null>(null);
 
-  constructor(private accountService: AccountService) {}
+  constructor(private accountService: AccountService) { }
 
   ngOnInit(): void {
     this.loadAccounts();
@@ -33,24 +32,18 @@ export class AllAccountsComponent implements OnInit {
     this.loading.set(true);
     this.error.set(null);
 
-    console.log('Fetching all accounts...');
     this.accountService.getAccounts().subscribe({
       next: (data) => {
-        console.log('Accounts loaded successfully:', data);
         const mapped = data.map((row: any[]) => ({
           id: String(row[0]),
           name: row[1],
           surname: row[2],
-          currency: row[3],
-          created_at: row[4]
+          currency: row[3]
         }));
         this.accounts.set(mapped);
         this.loading.set(false);
       },
       error: (err) => {
-        console.error('Error loading accounts:', err);
-        console.error('Error status:', err.status);
-        console.error('Error message:', err.message);
         this.error.set(`Failed to load accounts: ${err.message}`);
         this.loading.set(false);
       }

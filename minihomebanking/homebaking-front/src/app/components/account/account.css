@@ -1,20 +1,17 @@
-.entrata {
-  color: #2e7d32;
-  background-color: #e8f5e9;
+.account-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  padding-top: 1.35rem;
 }
 
-.uscita {
-  color: #c62828;
-  background-color: #ffebee;
+.account-actions .btn {
+  min-height: 2.75rem;
+  font-weight: 700;
 }
 
-.amount-cell {
-  font-weight: bold;
-}
-
-.back-btn {
-  display: inline-block;
-  margin-bottom: 20px;
-  text-decoration: none;
-  color: #0066cc;
+@media (max-width: 575px) {
+  .account-actions .btn {
+    width: 100%;
+  }
 }

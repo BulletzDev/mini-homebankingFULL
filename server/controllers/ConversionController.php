@@ -17,6 +17,7 @@ class ConversionController
 
         //get account id and currency to convert to
         $id    = $args['account'] ?? null;
+        $accountId = (int) $id;
         $query = $request->getQueryParams();
         $to    = strtoupper($query['to'] ?? '');
 
@@ -31,7 +32,7 @@ class ConversionController
         }
 
         // check that account exists
-        $stmt = $mysqli_connection->prepare("SELECT 1 FROM `account` WHERE id = ? LIMIT 1");
+        $stmt = $mysqli->prepare("SELECT 1 FROM `account` WHERE id = ? LIMIT 1");
         if (! $stmt) {
             $response->getBody()->write(json_encode(['error' => 'Database error']));
             $mysqli->close();
@@ -63,6 +64,9 @@ class ConversionController
             return $response->withHeader('Content-Type', 'application/json')->withStatus(404);
         }
         $from    = strtoupper($account['currency'] ?? 'EUR');
+        if ($from === 'YEN') {
+            $from = 'JPY';
+        }
         $balance = $account['balance'];
         $stmt->close();
 
@@ -123,6 +127,7 @@ class ConversionController
 
         //get account id and crypto to convert to
         $id    = $args['account'] ?? null;
+        $accountId = (int) $id;
         $query = $request->getQueryParams();
         $to    = strtoupper($query['to'] ?? '');
 
@@ -137,7 +142,7 @@ class ConversionController
         }
 
         // check that account exists
-        $stmt = $mysqli_connection->prepare("SELECT 1 FROM `account` WHERE id = ? LIMIT 1");
+        $stmt = $mysqli->prepare("SELECT 1 FROM `account` WHERE id = ? LIMIT 1");
         if (! $stmt) {
             $response->getBody()->write(json_encode(['error' => 'Database error']));
             $mysqli->close();
@@ -169,7 +174,11 @@ class ConversionController
             return $response->withHeader('Content-Type', 'application/json')->withStatus(404);
         }
         $from    = strtoupper($account['currency'] ?? 'EUR');
-        $symbol  = $to . $from;
+        if ($from === 'YEN') {
+            $from = 'JPY';
+        }
+        $marketCurrency = $from === 'USD' ? 'USDT' : $from;
+        $symbol  = $to . $marketCurrency;
         $balance = $account['balance'];
         $stmt->close();
 

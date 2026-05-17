@@ -1,1 +1,43 @@
-<p>edit-desc works!</p>
+<div class="page-shell narrow-shell">
+  <a [routerLink]="['/accounts', accountId, 'transaction', transactionId]" class="back-btn">
+    &larr; Back to transaction
+  </a>
+
+  <section class="app-panel">
+    <header class="panel-header">
+      <div>
+        <p class="eyebrow">Transaction {{ transactionId || 'not available' }}</p>
+        <h2>Update description</h2>
+      </div>
+      <span class="status-pill">Edit</span>
+    </header>
+
+    <form (ngSubmit)="updateDescription()" class="form-grid">
+      <div class="field-group">
+        <label class="form-label" for="description">Description</label>
+        <input
+          id="description"
+          class="form-control"
+          type="text"
+          [(ngModel)]="description"
+          name="description"
+          maxlength="120"
+          placeholder="New transaction description"
+        />
+        <div class="field-meta">{{ description.length }}/120</div>
+      </div>
+
+      <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
+      <div *ngIf="success" class="alert alert-success">{{ success }}</div>
+
+      <div class="action-row">
+        <a [routerLink]="['/accounts', accountId, 'transaction', transactionId]" class="btn btn-outline-secondary">
+          Cancel
+        </a>
+        <button type="submit" class="btn btn-primary" [disabled]="loading || !description.trim()">
+          {{ loading ? 'Saving...' : 'Save description' }}
+        </button>
+      </div>
+    </form>
+  </section>
+</div>

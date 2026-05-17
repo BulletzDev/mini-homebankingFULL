@@ -1,1 +1,42 @@
-<p>delete works!</p>
+<div class="page-shell narrow-shell">
+  <a [routerLink]="accountId ? ['/accounts', accountId, 'transactions'] : ['/accounts']" class="back-btn">
+    &larr; Back to transactions
+  </a>
+
+  <section class="app-panel">
+    <header class="panel-header">
+      <div>
+        <p class="eyebrow">Account {{ accountId || 'not available' }}</p>
+        <h2>Delete transaction</h2>
+        <p class="muted-copy" *ngIf="transactionId; else missingId">
+          Confirm deletion for transaction {{ transactionId }}.
+        </p>
+      </div>
+      <span class="status-pill debit">Danger</span>
+    </header>
+
+    <ng-template #missingId>
+      <p class="muted-copy">No transaction selected.</p>
+    </ng-template>
+
+    <div class="form-grid">
+      <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
+      <div *ngIf="success" class="alert alert-success">{{ success }}</div>
+
+      <div class="action-row">
+        <a [routerLink]="accountId ? ['/accounts', accountId, 'transactions'] : ['/accounts']" class="btn btn-outline-secondary">
+          Cancel
+        </a>
+        <button
+          *ngIf="transactionId"
+          type="button"
+          class="btn btn-danger"
+          (click)="deleteTransaction()"
+          [disabled]="loading"
+        >
+          {{ loading ? 'Deleting...' : 'Delete transaction' }}
+        </button>
+      </div>
+    </div>
+  </section>
+</div>

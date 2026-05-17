@@ -1,1 +1,51 @@
-<p>to-crypto works!</p>
+<div class="page-shell narrow-shell">
+  <a [routerLink]="accountId() ? ['/accounts', accountId(), 'balance'] : ['/accounts']" class="back-btn">
+    &larr; Back to balance
+  </a>
+
+  <div *ngIf="pageLoading()" class="alert alert-info">Loading account balance...</div>
+
+  <section *ngIf="!pageLoading()" class="app-panel">
+    <header class="panel-header">
+      <div>
+        <p class="eyebrow">Account {{ accountId() || 'not available' }}</p>
+        <h2>Convert to crypto</h2>
+        <p class="muted-copy">
+          Current balance: {{ accountCurrency() }} {{ displayedBalance() }}
+        </p>
+      </div>
+      <span class="status-pill">Crypto</span>
+    </header>
+
+    <form (ngSubmit)="convertToCrypto()" class="form-grid">
+      <div class="field-group">
+        <label class="form-label" for="crypto-currency">Target crypto</label>
+        <select
+          id="crypto-currency"
+          class="form-select"
+          [ngModel]="targetCurrency()"
+          (ngModelChange)="setTargetCurrency($event)"
+          name="currency"
+          required
+        >
+          <option *ngFor="let c of cryptoCurrencies" [value]="c.code">{{ c.code }} — {{ c.label }}</option>
+        </select>
+      </div>
+
+      <div *ngIf="error()" class="alert alert-danger">{{ error() }}</div>
+
+      <div *ngIf="convertedAmount() !== null" class="info-grid conversion-result">
+        <div class="info-item">
+          <span>Converted balance</span>
+          <strong>{{ conversionCurrency() }} {{ displayedConvertedAmount() }}</strong>
+        </div>
+      </div>
+
+      <div class="action-row">
+        <button type="submit" class="btn btn-primary" [disabled]="!canConvert()">
+          {{ loading() ? 'Converting...' : 'Convert balance' }}
+        </button>
+      </div>
+    </form>
+  </section>
+</div>

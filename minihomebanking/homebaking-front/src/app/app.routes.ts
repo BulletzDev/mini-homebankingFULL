@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { Home } from './components/home/home';
 import { AllAccountsComponent } from './components/all-accounts/all-accounts';
 import { Delete } from './components/delete/delete';
 import { Deposit } from './components/deposit/deposit';
@@ -8,20 +9,20 @@ import { ToCrypto } from './components/to-crypto/to-crypto';
 import { ToFiat } from './components/to-fiat/to-fiat';
 import { Transaction } from './components/transaction/transaction';
 import { Withdraw } from './components/withdraw/withdraw';
-import { AllTransactions } from './components/all-transactions/all-transactions'; 
+import { AllTransactions } from './components/all-transactions/all-transactions';
 import { AccountComponent } from './components/account/account';
 
 export const routes: Routes = [
-    { path: '', redirectTo: 'accounts', pathMatch: 'full' },
-    { path: 'accounts', component: AllAccountsComponent  },
-    { path: 'accounts/:account', component: AccountComponent },
+    { path: '', component: Home },
+    { path: 'accounts', component: AllAccountsComponent },
     { path: 'accounts/:account/transactions', component: AllTransactions },
     { path: 'accounts/:account/balance', component: GetBalance },
+    { path: 'accounts/:account/convert/fiat', component: ToFiat },
+    { path: 'accounts/:account/convert/crypto', component: ToCrypto },
     { path: 'accounts/:account/deposit', component: Deposit },
-    { path: 'accounts/:account/delete', component: Delete },
-    { path: 'accounts/:account/edit', component: EditDesc },
-    { path: 'accounts/:account/balance/convert/to-crypto', component: ToCrypto },
-    { path: 'accounts/:account/balance/convert/to-fiat', component: ToFiat },
-    { path: 'accounts/:account/transaction', component: Transaction },
-    { path: 'accounts/:account/withdraw', component: Withdraw }
+    { path: 'accounts/:account/withdraw', component: Withdraw },
+    { path: 'accounts/:account/transaction/:transactionId', component: Transaction },
+    { path: 'accounts/:account/edit/:transactionId', component: EditDesc },
+    { path: 'accounts/:account/delete/:transactionId', component: Delete },
+    { path: 'accounts/:account', component: AccountComponent, pathMatch: 'full' }
 ];

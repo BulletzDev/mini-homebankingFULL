@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 export class AccountService {
   private apiUrl = '/api';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   // Get all accounts
   getAccounts(): Observable<any[]> {

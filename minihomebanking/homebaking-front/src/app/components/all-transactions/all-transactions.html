@@ -1,1 +1,58 @@
-<p>all-transactions works!</p>
+<div class="page-shell">
+  <a [routerLink]="['/accounts', accountId]" class="back-btn">&larr; Back to account</a>
+
+  <header class="page-header">
+    <div>
+      <p class="eyebrow">Account {{ accountId }}</p>
+      <h1>Transaction history</h1>
+      <p class="muted-copy">Review debits, credits, descriptions, and dates.</p>
+    </div>
+    <span class="status-pill">{{ transactions.length }} total</span>
+  </header>
+
+  <div *ngIf="loading()" class="alert alert-info">Loading transactions...</div>
+  <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
+
+  <div *ngIf="!loading() && !error && transactions.length === 0" class="empty-state">
+    No transactions found for this account.
+  </div>
+
+  <section *ngIf="!loading() && !error && transactions.length > 0" class="app-panel p-0">
+    <div class="table-responsive">
+      <table class="table data-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Account</th>
+            <th>Type</th>
+            <th>Amount</th>
+            <th>Description</th>
+            <th>Date</th>
+            <th class="text-end">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let tx of transactions">
+            <td>{{ tx.id ?? tx[0] }}</td>
+            <td>{{ tx.account_id ?? tx[1] }}</td>
+            <td>
+              <span class="status-pill" [class.credit]="(tx.type ?? tx[2]) === 'deposit'"
+                [class.debit]="(tx.type ?? tx[2]) === 'withdrawal'">
+                {{ tx.type ?? tx[2] }}
+              </span>
+            </td>
+            <td>{{ tx.amount ?? tx[3] }}</td>
+            <td>{{ (tx.description ?? tx[4]) || 'No description' }}</td>
+            <td>{{ tx.created_at ?? tx[5] }}</td>
+            <td class="text-end">
+              <a *ngIf="accountId && (tx.id ?? tx[0])"
+                [routerLink]="['/accounts', accountId, 'transaction', tx.id ?? tx[0]]" class="btn btn-sm btn-primary">
+                View
+              </a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</div>

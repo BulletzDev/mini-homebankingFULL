@@ -1,1 +1,48 @@
-<p>transaction works!</p>
+<div class="page-shell narrow-shell">
+  <a [routerLink]="['/accounts', accountId(), 'transactions']" class="back-btn">
+    &larr; Back to transactions
+  </a>
+
+  <div *ngIf="loading()" class="alert alert-info">Loading transaction details...</div>
+  <div *ngIf="error()" class="alert alert-danger">{{ error() }}</div>
+
+  <section *ngIf="!loading() && !error() && transaction() as tx" class="app-panel">
+    <header class="panel-header">
+      <div>
+        <p class="eyebrow">Transaction {{ tx.id }}</p>
+        <h2>{{ title() }}</h2>
+      </div>
+      <span class="status-pill" [class.credit]="tx.isCredit" [class.debit]="!tx.isCredit">
+        {{ tx.type || 'transaction' }}
+      </span>
+    </header>
+
+    <div class="info-grid">
+      <div class="info-item">
+        <span>Account ID</span>
+        <strong>{{ tx.accountId }}</strong>
+      </div>
+      <div class="info-item">
+        <span>Amount</span>
+        <strong>{{ tx.amount }}</strong>
+      </div>
+      <div class="info-item">
+        <span>Date</span>
+        <strong>{{ tx.createdAt }}</strong>
+      </div>
+      <div class="info-item">
+        <span>Description</span>
+        <strong>{{ tx.description }}</strong>
+      </div>
+    </div>
+
+    <div class="action-row">
+      <a [routerLink]="['/accounts', accountId(), 'edit', tx.id]" class="btn btn-primary">
+        Update
+      </a>
+      <a [routerLink]="['/accounts', accountId(), 'delete', tx.id]" class="btn btn-outline-danger">
+        Delete
+      </a>
+    </div>
+  </section>
+</div>

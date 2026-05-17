@@ -1,1 +1,93 @@
-<p>get-balance works!</p>
+<div class="page-shell">
+  <a [routerLink]="accountId() ? ['/accounts', accountId()] : ['/accounts']" class="back-btn">
+    &larr; Back to account
+  </a>
+
+  <div *ngIf="loading()" class="alert alert-info">Loading balance...</div>
+  <div *ngIf="error()" class="alert alert-danger">{{ error() }}</div>
+
+  <section *ngIf="!loading() && !error()" class="balance-view">
+    <header class="app-panel balance-hero">
+      <div>
+        <p class="eyebrow">Account {{ accountId() }}</p>
+        <h2>{{ currency() }} {{ displayedBalance() }}</h2>
+        <p class="muted-copy">Current balance from every credit and debit on this account.</p>
+      </div>
+      <span class="status-pill">Balance</span>
+    </header>
+
+    <div class="balance-summary">
+      <article class="app-panel summary-card credit-card">
+        <span>Total credits</span>
+        <strong>+{{ currency() }} {{ displayedTotalCredits() }}</strong>
+        <p>{{ credits().length }} positive transaction{{ credits().length === 1 ? '' : 's' }}</p>
+      </article>
+
+      <article class="app-panel summary-card debit-card">
+        <span>Total debits</span>
+        <strong>-{{ currency() }} {{ displayedTotalDebits() }}</strong>
+        <p>{{ debits().length }} negative transaction{{ debits().length === 1 ? '' : 's' }}</p>
+      </article>
+
+      <article class="app-panel summary-card">
+        <span>Calculated balance</span>
+        <strong>{{ currency() }} {{ displayedCalculatedBalance() }}</strong>
+        <p>Credits minus debits</p>
+      </article>
+    </div>
+
+    <div *ngIf="transactionsLoading()" class="alert alert-info">Loading transaction breakdown...</div>
+    <div *ngIf="transactionsError()" class="alert alert-warning">{{ transactionsError() }}</div>
+
+    <section class="app-panel p-0"
+      *ngIf="!transactionsLoading() && !transactionsError() && transactionViews().length > 0; else emptyBalance">
+      <div class="balance-table-header">
+        <div>
+          <p class="eyebrow">Breakdown</p>
+          <h3>What makes this balance</h3>
+        </div>
+      </div>
+
+      <div class="table-responsive">
+        <table class="table data-table balance-table">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Description</th>
+              <th>Type</th>
+              <th class="text-end">Amount</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let transaction of transactionViews()" [class.credit-row]="transaction.isCredit"
+              [class.debit-row]="!transaction.isCredit">
+              <td>{{ transaction.created_at || 'No date' }}</td>
+              <td>{{ transaction.description }}</td>
+              <td>
+                <span class="status-pill" [class.credit]="transaction.isCredit" [class.debit]="!transaction.isCredit">
+                  {{ transaction.type || 'transaction' }}
+                </span>
+              </td>
+              <td class="text-end amount-cell">{{ transaction.signedAmount }} {{ currency() }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <ng-template #emptyBalance>
+      <div *ngIf="!transactionsLoading() && !transactionsError()" class="empty-state">
+        No transactions found, so there is no breakdown to show.
+      </div>
+    </ng-template>
+
+    <div class="action-row">
+      <a [routerLink]="['/accounts', accountId(), 'convert', 'fiat']" class="btn btn-outline-primary">
+        Convert to fiat
+      </a>
+      <a [routerLink]="['/accounts', accountId(), 'convert', 'crypto']" class="btn btn-primary">
+        Convert to crypto
+      </a>
+    </div>
+  </section>
+</div>
