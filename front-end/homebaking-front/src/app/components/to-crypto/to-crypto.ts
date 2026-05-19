@@ -38,14 +38,10 @@ export class ToCrypto implements OnInit {
     { code: 'DOGE', label: 'Dogecoin' },
     { code: 'ADA',  label: 'Cardano' },
     { code: 'TRX',  label: 'TRON' },
-    { code: 'AVAX', label: 'Avalanche' },
     { code: 'LINK', label: 'Chainlink' },
-    { code: 'DOT',  label: 'Polkadot' },
     { code: 'MATIC',label: 'Polygon' },
     { code: 'LTC',  label: 'Litecoin' },
     { code: 'BCH',  label: 'Bitcoin Cash' },
-    { code: 'ATOM', label: 'Cosmos' },
-    { code: 'UNI',  label: 'Uniswap' },
     { code: 'XLM',  label: 'Stellar' },
   ];
 
