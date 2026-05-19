@@ -1,12 +1,12 @@
 <div class="page-shell narrow-shell">
-  <a [routerLink]="accountId ? ['/accounts', accountId] : ['/accounts']" class="back-btn">
+  <a [routerLink]="accountId() ? ['/accounts', accountId()] : ['/accounts']" class="back-btn">
     &larr; Back to account
   </a>
 
   <section class="app-panel">
     <header class="panel-header">
       <div>
-        <p class="eyebrow">Account {{ accountId || 'not available' }}</p>
+        <p class="eyebrow">Account {{ accountId() || 'not available' }}</p>
         <h2>Withdraw funds</h2>
       </div>
       <span class="status-pill debit">Debit</span>
@@ -51,19 +51,19 @@
         </div>
       </div>
 
-      <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
-      <div *ngIf="success" class="alert alert-success">{{ success }}</div>
+      <div *ngIf="error()" class="alert alert-danger">{{ error() }}</div>
+      <div *ngIf="success()" class="alert alert-success">{{ success() }}</div>
 
       <div class="action-row">
-        <a [routerLink]="accountId ? ['/accounts', accountId] : ['/accounts']" class="btn btn-outline-secondary">
+        <a [routerLink]="accountId() ? ['/accounts', accountId()] : ['/accounts']" class="btn btn-outline-secondary">
           Cancel
         </a>
         <button
           type="submit"
           class="btn btn-primary"
-          [disabled]="loading || withdrawForm.invalid || !accountId"
+          [disabled]="loading() || withdrawForm.invalid || !accountId()"
         >
-          {{ loading ? 'Processing...' : 'Submit withdrawal' }}
+          {{ loading() ? 'Processing...' : 'Submit withdrawal' }}
         </button>
       </div>
     </form>

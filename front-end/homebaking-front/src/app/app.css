@@ -6,14 +6,14 @@
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
-  border-bottom: 1px solid #e4eaf2;
-  background: rgba(255, 255, 255, 0.94);
+  border-bottom: 1px solid var(--border);
+  background: var(--navbar-bg);
   padding: 0.9rem clamp(1rem, 4vw, 2rem);
   backdrop-filter: blur(14px);
 }
 
 .navbar-brand {
-  color: #172033;
+  color: var(--text-main);
   font-size: 1.1rem;
   font-weight: 800;
   text-decoration: none;
@@ -27,15 +27,39 @@
 
 .navbar-links a {
   border-radius: 8px;
-  color: #475569;
+  color: var(--text-muted);
   font-weight: 700;
   padding: 0.55rem 0.8rem;
   text-decoration: none;
+  transition: all 0.2s ease;
 }
 
 .navbar-links a:hover {
-  background: #f4f7fb;
-  color: #0d6efd;
+  background: var(--surface-muted);
+  color: var(--primary);
+}
+
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 8px;
+  background: var(--surface-muted);
+  padding: 0.55rem 0.8rem;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+  color: var(--text-main);
+}
+
+.theme-toggle:hover {
+  background: var(--primary);
+  transform: scale(1.05);
+}
+
+.theme-icon {
+  display: inline-block;
 }
 
 @media (max-width: 575px) {

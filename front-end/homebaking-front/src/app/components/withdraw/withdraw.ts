@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
@@ -17,34 +17,35 @@ export class Withdraw implements OnInit {
   private accountService = inject(AccountService);
   private formBuilder = inject(NonNullableFormBuilder);
 
-  accountId: number | null = null;
+  accountId = signal<number | null>(null);
   withdrawForm = this.formBuilder.group({
     amount: [null as number | null, [Validators.required, Validators.min(0.01)]],
     description: ['', [Validators.maxLength(120)]],
   });
 
-  loading = false;
-  error: string | null = null;
-  success: string | null = null;
+  loading = signal(false);
+  error = signal<string | null>(null);
+  success = signal<string | null>(null);
 
   ngOnInit(): void {
     const accountParam = this.route.snapshot.paramMap.get('account');
     const parsedAccountId = Number(accountParam);
 
     if (!accountParam || Number.isNaN(parsedAccountId)) {
-      this.accountId = null;
-      this.error = 'Invalid account selected.';
+      this.accountId.set(null);
+      this.error.set('Invalid account selected.');
       this.withdrawForm.disable();
       return;
     }
 
-    this.accountId = parsedAccountId;
+    this.accountId.set(parsedAccountId);
   }
 
   submitWithdraw(): void {
     this.withdrawForm.markAllAsTouched();
 
-    if (!this.accountId || this.withdrawForm.invalid || this.loading) {
+    const currentAccountId = this.accountId();
+    if (!currentAccountId || this.withdrawForm.invalid || this.loading()) {
       return;
     }
 
@@ -54,25 +55,23 @@ export class Withdraw implements OnInit {
       return;
     }
 
-    this.loading = true;
-    this.error = null;
-    this.success = null;
+    this.loading.set(true);
+    this.error.set(null);
+    this.success.set(null);
 
-    this.accountService.withdraw(this.accountId, amount, description.trim()).subscribe({
+    this.accountService.withdraw(currentAccountId, amount, description.trim()).subscribe({
       next: () => {
-        this.success = 'Withdrawal completed successfully.';
+        this.success.set('Withdrawal completed successfully.');
         this.withdrawForm.reset({ amount: null, description: '' });
-        this.loading = false;
+        this.loading.set(false);
 
-        if (this.accountId) {
-          setTimeout(() => {
-            this.router.navigate(['/accounts', this.accountId]);
-          }, 800);
-        }
+        setTimeout(() => {
+          this.router.navigate(['/accounts', currentAccountId]);
+        }, 800);
       },
       error: (err) => {
-        this.error = err?.error?.error || err?.error?.message || err?.message || 'Failed to process withdrawal.';
-        this.loading = false;
+        this.error.set(err?.error?.error || err?.error?.message || err?.message || 'Failed to process withdrawal.');
+        this.loading.set(false);
       },
     });
   }

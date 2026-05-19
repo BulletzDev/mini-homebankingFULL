@@ -3,6 +3,9 @@
   <div class="navbar-links">
     <a routerLink="/">Home</a>
     <a routerLink="/accounts">Accounts</a>
+    <button class="theme-toggle" (click)="toggleDarkMode()" [attr.aria-label]="darkMode() ? 'Switch to light mode' : 'Switch to dark mode'">
+      <span class="theme-icon">{{ darkMode() ? '☀️' : '🌙' }}</span>
+    </button>
   </div>
 </nav>
 

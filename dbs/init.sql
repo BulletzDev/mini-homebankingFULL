@@ -53,8 +53,8 @@ INSERT INTO `transaction` (`id`, `account_id`, `type`, `amount`, `description`, 
 (3, 2, 'deposit', 500, 'Salary', '2026-04-27 06:38:25'),
 (4, 2, 'withdrawal', 150, 'Online purchase', '2026-04-27 06:38:25'),
 (5, 3, 'deposit', 100, 'Gift', '2026-04-27 06:38:25'),
-(6, 4, 'withdrawal', 350, 'Nigeriana', '2026-04-27 06:38:25'),
-(7, 4, 'withdrawal', 650, 'Neve', '2026-04-27 06:38:25');
+(6, 4, 'withdrawal', 350, 'Caramella alle erbe', '2026-04-27 06:38:25'),
+(7, 4, 'withdrawal', 650, 'Giornalino per adulti', '2026-04-27 06:38:25');
 
 --
 -- Constraints for dumped tables

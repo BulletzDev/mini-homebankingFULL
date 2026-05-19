@@ -1,3 +1,6 @@
+/* ==========================================================================
+   1. VARIABILI E CONFIGURAZIONE DEI TEMI
+   ========================================================================== */
 :root {
   --app-bg: #f6f8fb;
   --surface: #ffffff;
@@ -12,11 +15,33 @@
   --success: #15803d;
   --success-soft: #ecfdf3;
   --shadow-panel: 0 16px 34px rgba(15, 23, 42, 0.08);
+  --navbar-bg: rgba(255, 255, 255, 0.94);
 }
 
+:root[data-theme='dark'] {
+  --app-bg: #0f172a;
+  --surface: #1e293b;
+  --surface-muted: #334155;
+  --border: #475569;
+  --text-main: #f1f5f9;
+  --text-muted: #cbd5e1;
+  --primary: #3b82f6;
+  --primary-dark: #1d4ed8;
+  --danger: #f43f5e;
+  --danger-soft: #2d1620;
+  --success: #22c55e;
+  --success-soft: #1d3f1f;
+  --shadow-panel: 0 16px 34px rgba(0, 0, 0, 0.4);
+  --navbar-bg: rgba(15, 23, 42, 0.92);
+}
+
+/* ==========================================================================
+   2. STILI DI BASE E STRUTTURA PAGINA
+   ========================================================================== */
 html,
 body {
   min-height: 100%;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 body {
@@ -24,12 +49,14 @@ body {
   background: var(--app-bg);
   color: var(--text-main);
   font-family:
-    Inter,
-    system-ui,
     -apple-system,
     BlinkMacSystemFont,
     'Segoe UI',
+    Helvetica,
+    Arial,
     sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 a {
@@ -51,16 +78,19 @@ a {
   align-items: center;
   gap: 0.35rem;
   margin-bottom: 1rem;
-  color: #0f5ea8;
+  color: var(--primary);
   font-weight: 700;
   text-decoration: none;
 }
 
 .back-btn:hover {
-  color: #084b88;
+  color: var(--primary-dark);
   text-decoration: underline;
 }
 
+/* ==========================================================================
+   3. INTESTAZIONI E PANNELLI
+   ========================================================================== */
 .page-header,
 .panel-header {
   display: flex;
@@ -75,7 +105,7 @@ a {
 
 .panel-header {
   padding-bottom: 1.25rem;
-  border-bottom: 1px solid #edf1f7;
+  border-bottom: 1px solid var(--border);
 }
 
 .page-header h1,
@@ -117,6 +147,9 @@ a {
   padding: clamp(1.25rem, 4vw, 2rem);
 }
 
+/* ==========================================================================
+   4. FORM E COMPONENTI DI INPUT
+   ========================================================================== */
 .form-grid {
   display: grid;
   gap: 1.1rem;
@@ -130,7 +163,7 @@ a {
 
 .form-label {
   margin: 0;
-  color: #334155;
+  color: var(--text-main);
   font-weight: 700;
 }
 
@@ -141,9 +174,10 @@ a {
 }
 
 .input-prefix {
+  display: grid; /* CORRETTO: Aggiunto display grid per l'allineamento degli elementi */
   grid-template-columns: auto 1fr;
   align-items: center;
-  border: 1px solid #ced6e0;
+  border: 1px solid var(--border);
   border-radius: 8px;
   overflow: hidden;
   transition:
@@ -152,8 +186,8 @@ a {
 }
 
 .input-prefix:focus-within {
-  border-color: #86b7fe;
-  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.18);
+  border-color: var(--primary);
+  box-shadow: 0 0 0 0.25rem rgba(59, 130, 246, 0.18);
 }
 
 .input-prefix span {
@@ -161,7 +195,7 @@ a {
   display: inline-flex;
   align-items: center;
   background: var(--surface-muted);
-  color: #475569;
+  color: var(--text-muted);
   padding: 0 0.85rem;
   font-weight: 700;
 }
@@ -181,14 +215,17 @@ a {
   font-size: 0.8rem;
 }
 
+/* ==========================================================================
+   5. ELEMENTI DI INTERFACCIA (PILL, BOTTONI, GRIGLIE)
+   ========================================================================== */
 .status-pill {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   min-height: 2rem;
   border-radius: 999px;
-  background: #eef6ff;
-  color: #0f5ea8;
+  background: rgba(59, 130, 246, 0.1);
+  color: var(--primary);
   padding: 0.35rem 0.75rem;
   font-size: 0.85rem;
   font-weight: 700;
@@ -216,30 +253,6 @@ a {
   min-width: 9.5rem;
   min-height: 2.75rem;
   font-weight: 700;
-}
-
-.data-table {
-  margin: 0;
-}
-
-.data-table th {
-  color: #475569;
-  font-size: 0.8rem;
-  text-transform: uppercase;
-}
-
-.data-table td,
-.data-table th {
-  vertical-align: middle;
-  padding: 0.9rem 1rem;
-}
-
-.data-table tbody tr {
-  transition: background-color 0.15s ease;
-}
-
-.data-table tbody tr:hover {
-  background: #f8fafc;
 }
 
 .info-grid {
@@ -272,9 +285,9 @@ a {
 }
 
 .empty-state {
-  border: 1px dashed #cbd5e1;
+  border: 1px dashed var(--border);
   border-radius: 8px;
-  background: #ffffff;
+  background: var(--surface);
   color: var(--text-muted);
   padding: 1.25rem;
 }
@@ -289,6 +302,150 @@ a {
   margin: 0;
 }
 
+/* ==========================================================================
+   6. TABELLE ED ELEMENTI RESPONSIVE (BOOTSTRAP FIXES)
+   ========================================================================== */
+.data-table {
+  margin: 0;
+}
+
+.data-table th {
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+}
+
+.data-table td,
+.data-table th {
+  vertical-align: middle;
+  padding: 0.9rem 1rem;
+}
+
+.data-table tbody tr {
+  transition: background-color 0.15s ease;
+}
+
+.data-table tbody tr:hover {
+  background: var(--surface-muted);
+}
+
+/* FIX: Correzione specifica per la tabella responsive di Bootstrap in Dark Mode */
+:root[data-theme='dark'] .table-responsive {
+  border-color: var(--border) !important;
+}
+
+/* Forza l'ereditarietà corretta dei colori sulle celle all'interno del blocco responsive */
+:root[data-theme='dark'] .table-responsive .data-table th {
+  color: var(--text-muted) !important;
+  border-bottom-color: var(--border) !important;
+  background-color: var(--surface) !important;
+}
+
+:root[data-theme='dark'] .table-responsive .data-table td {
+  color: var(--text-main) !important;
+  border-bottom-color: var(--border) !important;
+  background-color: var(--surface) !important;
+}
+
+/* Sovrascrive lo sfondo dell'effetto hover sulle righe responsive */
+:root[data-theme='dark'] .table-responsive .data-table tbody tr {
+  background-color: transparent !important;
+}
+
+:root[data-theme='dark'] .table-responsive .data-table tbody tr:hover td {
+  background-color: var(--surface-muted) !important;
+}
+
+/* Ottimizzazione visiva delle scrollbar orizzontali in Dark Mode */
+:root[data-theme='dark'] .table-responsive::-webkit-scrollbar {
+  height: 8px;
+}
+
+:root[data-theme='dark'] .table-responsive::-webkit-scrollbar-track {
+  background: var(--surface);
+}
+
+:root[data-theme='dark'] .table-responsive::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 4px;
+}
+
+/* ==========================================================================
+   7. ELEMENTI NATIVI BOOTSTRAP (INPUT, ALERT, BOTTONI OVERRIDES)
+   ========================================================================== */
+.form-control,
+.form-select {
+  background-color: var(--surface) !important;
+  border-color: var(--border) !important;
+  color: var(--text-main) !important;
+  transition: all 0.15s ease;
+}
+
+.form-control:focus,
+.form-select:focus {
+  background-color: var(--surface) !important;
+  border-color: var(--primary) !important;
+  color: var(--text-main) !important;
+  box-shadow: 0 0 0 0.25rem rgba(59, 130, 246, 0.18) !important;
+}
+
+.form-control::placeholder {
+  color: var(--text-muted) !important;
+}
+
+.form-control:disabled,
+.form-select:disabled {
+  background-color: var(--surface-muted) !important;
+  color: var(--text-muted) !important;
+}
+
+.btn {
+  font-weight: 700;
+  transition: all 0.2s ease;
+}
+
+.btn-primary {
+  background-color: var(--primary) !important;
+  border-color: var(--primary) !important;
+  color: #ffffff !important;
+}
+
+.btn-primary:hover {
+  background-color: var(--primary-dark) !important;
+  border-color: var(--primary-dark) !important;
+}
+
+.btn-outline-secondary {
+  color: var(--text-main) !important;
+  border-color: var(--border) !important;
+  background-color: transparent !important;
+}
+
+.btn-outline-secondary:hover {
+  background-color: var(--surface-muted) !important;
+  border-color: var(--border) !important;
+  color: var(--text-main) !important;
+}
+
+.alert-danger {
+  background-color: var(--danger-soft) !important;
+  border-color: var(--danger) !important;
+  color: var(--danger) !important;
+}
+
+.alert-success {
+  background-color: var(--success-soft) !important;
+  border-color: var(--success) !important;
+  color: var(--success) !important;
+}
+
+.invalid-feedback {
+  color: var(--danger) !important;
+}
+
+/* ==========================================================================
+   8. MEDIA QUERIES (RESPONSIVE LAYOUT)
+   ========================================================================== */
 @media (max-width: 575px) {
   .page-shell,
   .narrow-shell {
